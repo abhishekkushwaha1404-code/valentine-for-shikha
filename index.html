@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Shikha 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 20px;
+    text-align: center;
+    width: 90%;
+    max-width: 360px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
+
+.card img {
+    width: 100%;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+h1 {
+    color: #e60073;
+    font-size: 24px;
+}
+
+p {
+    color: #444;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.buttons {
+    position: relative;
+    height: 70px;
+}
+
+button {
+    padding: 12px 22px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+#yesBtn {
+    background: #ff4d88;
+    color: white;
+}
+
+#noBtn {
+    background: #bbb;
+    position: absolute;
+    left: 160px;
+}
+
+/* Shake animation */
+.shake {
+    animation: shake 0.5s;
+}
+@keyframes shake {
+    0% { transform: translate(0); }
+    25% { transform: translate(-5px); }
+    50% { transform: translate(5px); }
+    75% { transform: translate(-5px); }
+    100% { transform: translate(0); }
+}
+
+/* Celebration */
+.celebrate {
+    position: fixed;
+    inset: 0;
+    background: white;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    z-index: 10;
+}
+
+.ring {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 10px solid gold;
+    position: relative;
+    animation: pop 1s ease-out forwards;
+    margin-bottom: 20px;
+}
+
+.ring::after {
+    content: "💎";
+    font-size: 42px;
+    position: absolute;
+    top: -30px;
+    left: 35px;
+}
+
+@keyframes pop {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+}
+
+/* Confetti */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    animation: fall 3s linear infinite;
+    z-index: 20;
+}
+
+@keyframes fall {
+    from { transform: translateY(-10vh) rotate(0deg); }
+    to { transform: translateY(110vh) rotate(360deg); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+    <img id="photo">
+    <h1 id="title"></h1>
+    <p id="joke"></p>
+
+    <div class="buttons">
+        <button id="yesBtn">YES 💖</button>
+        <button id="noBtn">NO 🙈</button>
+    </div>
+</div>
+
+<div class="celebrate" id="celebrate">
+    <div class="ring"></div>
+    <h1>Shikha, will you marry me? 💍❤️</h1>
+</div>
+
+<audio id="music" loop></audio>
+
+<script>
+/* ❤️ PERSONALIZATION ❤️ */
+const HER_NAME = "Shikha 💖";
+const INSIDE_JOKE = "From our first Chai to forever ☕❤️";
+const PHOTO_URL = "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80";
+const WHATSAPP_NUMBER = "919889108155";
+const SONG_URL = "https://cdn.pixabay.com/download/audio/2022/03/15/audio_7bfa8f6c89.mp3?filename=romantic-ambient-11265.mp3";
+/* ❤️ END ❤️ */
+
+document.getElementById("title").innerText =
+  `Will you be my Valentine, ${HER_NAME}? 💘`;
+document.getElementById("joke").innerText = INSIDE_JOKE;
+document.getElementById("photo").src = PHOTO_URL;
+
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const celebrate = document.getElementById("celebrate");
+const music = document.getElementById("music");
+const card = document.getElementById("card");
+
+music.src = SONG_URL;
+
+// Play music after first interaction (mobile safe)
+document.body.addEventListener("click", () => {
+    music.play();
+}, { once: true });
+
+// Impossible NO 😈
+function escapeNo() {
+    noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+    noBtn.style.top = Math.random() * (window.innerHeight - 100) + "px";
+}
+noBtn.addEventListener("mouseenter", escapeNo);
+noBtn.addEventListener("touchstart", escapeNo);
+
+// YES action 💖
+yesBtn.addEventListener("click", () => {
+    card.classList.add("shake");
+    if (navigator.vibrate) navigator.vibrate([200,100,200]);
+
+    celebrate.style.display = "flex";
+    launchConfetti();
+
+    setTimeout(() => {
+        window.location.href =
+          `https://wa.me/${WHATSAPP_NUMBER}?text=` +
+          encodeURIComponent("Shikha here 💖 I guess this is my YES… forever ❤️💍");
+    }, 1500);
+});
+
+// Confetti 🎉
+function launchConfetti() {
+    for (let i = 0; i < 50; i++) {
+        const c = document.createElement("div");
+        c.className = "confetti";
+        c.style.left = Math.random() * 100 + "vw";
+        c.style.background =
+          `hsl(${Math.random() * 360}, 100%, 60%)`;
+        c.style.animationDuration =
+          (Math.random() * 2 + 2) + "s";
+        document.body.appendChild(c);
+    }
+}
+</script>
+
+</body>
+</html>
