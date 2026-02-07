@@ -27,6 +27,7 @@ body {
     width: 90%;
     max-width: 360px;
     box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    z-index: 2;
 }
 
 .card img {
@@ -56,6 +57,7 @@ button {
     background: #bbb;
     position: absolute;
     left: 160px;
+    top: 0;
 }
 
 /* Screens */
@@ -125,38 +127,27 @@ button {
 <div class="screen" id="proposal">
     <div class="ring"></div>
     <h1>Shikha 💖</h1>
-    <p>My Love of My Life,<br>Will you be my Valentine forever?<br><b>— Sweetu Babu 💍❤️</b></p>
+    <p>
+        My Wife, My Forever ❤️<br>
+        I choose you again. Always.<br><br>
+        <b>— Sweetu Babu 💍</b>
+    </p>
     <button onclick="showPlan()">Next 💘</button>
 </div>
 
-<!-- Valentine Week Plan -->
+<!-- Valentine Week -->
 <div class="screen" id="plan">
     <h1>Our Valentine Week 💖</h1>
-   <p>
-    🌹 <b>Rose Day</b> –  
-    A rose for the woman who still makes my heart skip ❤️<br><br>
-
-    💍 <b>Re-Propose Day</b> –  
-    Not because I have to…  
-    but because I <i>want to</i>, every single day 💖<br>
-    <b>Shikha, I choose you. Again. Forever.</b><br><br>
-
-    🍫 <b>Chocolate Day</b> –  
-    Sweet moments, silly fights, sweeter make-ups 😌<br><br>
-
-    🧸 <b>Teddy Day</b> –  
-    Tight hugs, warm naps, safe arms 🤍<br><br>
-
-    💌 <b>Promise Day</b> –  
-    To stand by you in every season of life 🌈<br><br>
-
-    💋 <b>Kiss Day</b> –  
-    Still butterflies… still magic 💋<br><br>
-
-    ❤️ <b>Valentine’s Day</b> –  
-    My wife. My home. My forever 💖
-</p>
-    <button onclick="finalConfirm()">All Good? 😘</button>
+    <p>
+        🌹 <b>Rose Day</b> – Still falling for you ❤️<br><br>
+        💍 <b>Re-Propose Day</b> – I choose you. Again. Forever.<br><br>
+        🍫 <b>Chocolate Day</b> – Sweet fights, sweeter love 😌<br><br>
+        🧸 <b>Teddy Day</b> – Safe hugs, warm hearts 🤍<br><br>
+        💌 <b>Promise Day</b> – Every season, every storm 🌈<br><br>
+        💋 <b>Kiss Day</b> – Still magic 💋<br><br>
+        ❤️ <b>Valentine’s Day</b> – My wife. My home. My forever 💖
+    </p>
+    <button onclick="finalConfirm()">Still us? Always us ❤️</button>
 </div>
 
 <audio id="music" loop></audio>
@@ -167,7 +158,7 @@ const HER_NAME = "Shikha 💖";
 const INSIDE_JOKE = "From our first Chai to forever ☕❤️";
 const PHOTO_URL = "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80";
 const WHATSAPP_NUMBER = "919889108155";
-const SONG_URL = "https://cdn.pixabay.com/download/audio/2022/03/15/audio_7bfa8f6c89.mp3?filename=romantic-ambient-11265.mp3";
+const SONG_URL = "https://cdn.pixabay.com/download/audio/2022/03/15/audio_7bfa8f6c89.mp3";
 /* ❤️ END ❤️ */
 
 document.getElementById("title").innerText =
@@ -178,30 +169,25 @@ document.getElementById("photo").src = PHOTO_URL;
 const music = document.getElementById("music");
 music.src = SONG_URL;
 
+const card = document.getElementById("card");
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
 const proposal = document.getElementById("proposal");
 const plan = document.getElementById("plan");
 
-const originalLeft = noBtn.style.left;
-const originalTop = noBtn.style.top;
+// NO button escape 😈
+noBtn.addEventListener("mouseenter", moveNo);
+noBtn.addEventListener("touchstart", moveNo);
 
-// NO escapes but returns 😈
-function escapeNo() {
-    noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
-    noBtn.style.top = Math.random() * (window.innerHeight - 100) + "px";
-
-    setTimeout(() => {
-        noBtn.style.left = originalLeft;
-        noBtn.style.top = originalTop;
-    }, 1000);
+function moveNo() {
+    noBtn.style.left = Math.random() * 200 + "px";
+    noBtn.style.top = Math.random() * 40 + "px";
 }
-noBtn.addEventListener("mouseenter", escapeNo);
-noBtn.addEventListener("touchstart", escapeNo);
 
 // YES flow 💖
 yesBtn.addEventListener("click", () => {
-    music.play(); // ✅ music guaranteed now
+    music.play();
+    card.style.display = "none";
     launchConfetti();
     proposal.style.display = "flex";
 });
@@ -214,10 +200,9 @@ function showPlan() {
 function finalConfirm() {
     window.location.href =
       `https://wa.me/${WHATSAPP_NUMBER}?text=` +
-      encodeURIComponent("Shikha here 💖 I guess this is my YES… forever ❤️💍");
+      encodeURIComponent("Shikha 💖 My wife. My forever. Always ❤️💍");
 }
 
-// Confetti
 function launchConfetti() {
     for (let i = 0; i < 40; i++) {
         const c = document.createElement("div");
