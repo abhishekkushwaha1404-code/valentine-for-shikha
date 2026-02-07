@@ -35,16 +35,8 @@ body {
     margin-bottom: 15px;
 }
 
-h1 {
-    color: #e60073;
-    font-size: 24px;
-}
-
-p {
-    color: #444;
-    font-size: 16px;
-    margin-bottom: 20px;
-}
+h1 { color: #e60073; font-size: 22px; }
+p { color: #444; }
 
 .buttons {
     position: relative;
@@ -59,52 +51,37 @@ button {
     cursor: pointer;
 }
 
-#yesBtn {
-    background: #ff4d88;
-    color: white;
-}
-
+#yesBtn { background: #ff4d88; color: white; }
 #noBtn {
     background: #bbb;
     position: absolute;
     left: 160px;
 }
 
-/* Shake animation */
-.shake {
-    animation: shake 0.5s;
-}
-@keyframes shake {
-    0% { transform: translate(0); }
-    25% { transform: translate(-5px); }
-    50% { transform: translate(5px); }
-    75% { transform: translate(-5px); }
-    100% { transform: translate(0); }
-}
-
-/* Celebration */
-.celebrate {
+/* Screens */
+.screen {
     position: fixed;
     inset: 0;
     background: white;
     display: none;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
     text-align: center;
+    padding: 20px;
     z-index: 10;
 }
 
+/* Ring */
 .ring {
     width: 120px;
     height: 120px;
     border-radius: 50%;
     border: 10px solid gold;
     position: relative;
-    animation: pop 1s ease-out forwards;
     margin-bottom: 20px;
+    animation: pop 1s ease-out forwards;
 }
-
 .ring::after {
     content: "💎";
     font-size: 42px;
@@ -112,7 +89,6 @@ button {
     top: -30px;
     left: 35px;
 }
-
 @keyframes pop {
     from { transform: scale(0); }
     to { transform: scale(1); }
@@ -124,12 +100,10 @@ button {
     width: 10px;
     height: 10px;
     animation: fall 3s linear infinite;
-    z-index: 20;
 }
-
 @keyframes fall {
-    from { transform: translateY(-10vh) rotate(0deg); }
-    to { transform: translateY(110vh) rotate(360deg); }
+    from { transform: translateY(-10vh); }
+    to { transform: translateY(110vh); }
 }
 </style>
 </head>
@@ -147,15 +121,32 @@ button {
     </div>
 </div>
 
-<div class="celebrate" id="celebrate">
+<!-- Proposal -->
+<div class="screen" id="proposal">
     <div class="ring"></div>
-    <h1>Shikha, My Love of My Life. Will you be my valentine forever -- Sweetu Babu 💍❤️</h1>
+    <h1>Shikha 💖</h1>
+    <p>My Love of My Life,<br>Will you be my Valentine forever?<br><b>— Sweetu Babu 💍❤️</b></p>
+    <button onclick="showPlan()">Next 💘</button>
+</div>
+
+<!-- Valentine Week Plan -->
+<div class="screen" id="plan">
+    <h1>Our Valentine Week 💖</h1>
+    <p>
+        🌹 Rose Day – You & a smile<br>
+        🍫 Chocolate Day – Sweet fights<br>
+        🧸 Teddy Day – Tight hugs<br>
+        💌 Promise Day – Forever us<br>
+        💋 Kiss Day – Stealing moments<br>
+        ❤️ Valentine’s Day – My world
+    </p>
+    <button onclick="finalConfirm()">All Good? 😘</button>
 </div>
 
 <audio id="music" loop></audio>
 
 <script>
-/* ❤️ PERSONALIZATION ❤️ */
+/* ❤️ PERSONALIZE ❤️ */
 const HER_NAME = "Shikha 💖";
 const INSIDE_JOKE = "From our first Chai to forever ☕❤️";
 const PHOTO_URL = "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80";
@@ -168,52 +159,56 @@ document.getElementById("title").innerText =
 document.getElementById("joke").innerText = INSIDE_JOKE;
 document.getElementById("photo").src = PHOTO_URL;
 
-const noBtn = document.getElementById("noBtn");
-const yesBtn = document.getElementById("yesBtn");
-const celebrate = document.getElementById("celebrate");
 const music = document.getElementById("music");
-const card = document.getElementById("card");
-
 music.src = SONG_URL;
 
-// Play music after first interaction (mobile safe)
-document.body.addEventListener("click", () => {
-    music.play();
-}, { once: true });
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const proposal = document.getElementById("proposal");
+const plan = document.getElementById("plan");
 
-// Impossible NO 😈
+const originalLeft = noBtn.style.left;
+const originalTop = noBtn.style.top;
+
+// NO escapes but returns 😈
 function escapeNo() {
     noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
     noBtn.style.top = Math.random() * (window.innerHeight - 100) + "px";
+
+    setTimeout(() => {
+        noBtn.style.left = originalLeft;
+        noBtn.style.top = originalTop;
+    }, 1000);
 }
 noBtn.addEventListener("mouseenter", escapeNo);
 noBtn.addEventListener("touchstart", escapeNo);
 
-// YES action 💖
+// YES flow 💖
 yesBtn.addEventListener("click", () => {
-    card.classList.add("shake");
-    if (navigator.vibrate) navigator.vibrate([200,100,200]);
-
-    celebrate.style.display = "flex";
+    music.play(); // ✅ music guaranteed now
     launchConfetti();
-
-    setTimeout(() => {
-        window.location.href =
-          `https://wa.me/${WHATSAPP_NUMBER}?text=` +
-          encodeURIComponent("Shikha here 💖 I guess this is my YES… forever ❤️💍");
-    }, 1500);
+    proposal.style.display = "flex";
 });
 
-// Confetti 🎉
+function showPlan() {
+    proposal.style.display = "none";
+    plan.style.display = "flex";
+}
+
+function finalConfirm() {
+    window.location.href =
+      `https://wa.me/${WHATSAPP_NUMBER}?text=` +
+      encodeURIComponent("Shikha here 💖 I guess this is my YES… forever ❤️💍");
+}
+
+// Confetti
 function launchConfetti() {
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 40; i++) {
         const c = document.createElement("div");
         c.className = "confetti";
         c.style.left = Math.random() * 100 + "vw";
-        c.style.background =
-          `hsl(${Math.random() * 360}, 100%, 60%)`;
-        c.style.animationDuration =
-          (Math.random() * 2 + 2) + "s";
+        c.style.background = `hsl(${Math.random()*360},100%,60%)`;
+        c.style.animationDuration = (Math.random()*2+2)+"s";
         document.body.appendChild(c);
     }
 }
